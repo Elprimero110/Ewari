@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Martens 1461 Smooth - Noir | Produit Star | Ewari</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        body { background-color: #fff; }
+
+        /* Fil d'Ariane */
+        .breadcrumb { font-size: 0.82rem; color: #999; padding: 12px 0 20px; }
+        .breadcrumb a { color: #999; text-decoration: none; }
+        .breadcrumb a:hover { color: #111; text-decoration: underline; }
+        .breadcrumb span { color: #111; }
+
+        /* =============================================
+           LAYOUT PRINCIPAL — Mobile first / 2 colonnes PC
+        ============================================= */
+        .star-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            padding-bottom: 100px; /* espace pour le sticky bar mobile */
+        }
+
+        @media (min-width: 900px) {
+            .star-layout {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 56px;
+                padding-bottom: 0;
+            }
+            .gallery-col {
+                flex: 0 0 46%;
+                position: sticky;
+                top: 80px;
+            }
+            .info-col {
+                flex: 1;
+            }
+        }
+
+        /* =============================================
+           GALERIE
+        ============================================= */
+        .main-img-wrapper {
+            background: #f5f5f5;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: zoom-in;
+        }
+        #main-star-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 24px;
+            transition: opacity 0.25s ease, transform 0.12s ease;
+        }
+
+        .star-badge-img {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: #111;
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 11px;
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .thumbs-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: #f5f5f5;
+            padding: 4px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+        .thumb.active { border-color: #111; }
+        .thumb:hover { border-color: #bbb; }
+
+        /* =============================================
+           INFOS PRODUIT
+        ============================================= */
+        .prod-brand {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: #777;
+            margin-bottom: 8px;
+        }
+        .prod-name {
+            font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            color: #111;
+        }
+
+        /* Note */
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .rating-stars { display: flex; gap: 2px; }
+        .rating-stars svg { width: 15px; height: 15px; color: #F5A623; }
+        .rating-val { font-weight: 700; font-size: 0.9rem; color: #111; }
+        .rating-count { font-size: 0.85rem; color: #777; }
+
+        /* Prix */
+        .price-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 18px 0;
+            border-top: 1px solid #ebebeb;
+            border-bottom: 1px solid #ebebeb;
+            margin-bottom: 20px;
+        }
+        .price-main { font-size: 2rem; font-weight: 900; color: #111; letter-spacing: -1px; }
+        .price-sub { font-size: 0.8rem; color: #888; }
+
+        /* Stock */
+        .stock-row {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        .stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #2e7d32; flex-shrink: 0; }
+
+        /* Bénéfices */
+        .benefits-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            margin-bottom: 24px;
+            padding: 0;
+        }
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.4;
+        }
+        .benefits-list li svg { width: 15px; height: 15px; color: #111; flex-shrink: 0; margin-top: 2px; }
+
+        /* Diviseur */
+        .divider { border: none; border-top: 1px solid #ebebeb; margin: 20px 0; }
+
+        /* Sélecteur de pointure */
+        .size-section { margin-bottom: 20px; }
+        .size-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .size-label { font-weight: 700; font-size: 0.95rem; color: #111; }
+        .size-hint { font-size: 0.8rem; color: #888; cursor: pointer; text-decoration: underline; }
+        .sizes-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+        .size-btn {
+            border: 1.5px solid #ddd;
+            background: #fff;
+            min-width: 52px;
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 0.92rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #111;
+            transition: all 0.17s;
+        }
+        .size-btn:hover { border-color: #111; }
+        .size-btn.active { border-color: #111; background: #111; color: #fff; }
+
+        /* Message d'erreur de sélection */
+        .size-error {
+            display: none;
+            color: #c62828;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* Quantité */
+        .qty-section { margin-bottom: 20px; }
+        .qty-label { font-weight: 700; font-size: 0.95rem; color: #111; display: block; margin-bottom: 10px; }
+        .qty-control {
+            display: inline-flex;
+            align-items: center;
+            border: 1.5px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .qty-btn-ctrl {
+            background: none;
+            border: none;
+            padding: 9px 18px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: #111;
+            line-height: 1;
+        }
+        .qty-btn-ctrl:hover { background: #f5f5f5; }
+        .qty-val {
+            width: 38px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            background: transparent;
+            border: none;
+        }
+
+        /* CTA PRINCIPAL */
+        .cta-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 17px 24px;
+            background: #111;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .cta-btn:hover { background: #222; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+        .cta-btn svg { width: 20px; height: 20px; }
+
+        /* =============================================
+           BADGES DE RÉASSURANCE — Design premium
+        ============================================= */
+        .reassurance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .reassurance-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid #e8e8e8;
+            border-radius: 10px;
+            background: #fafafa;
+            transition: border-color 0.2s;
+        }
+        .reassurance-card:hover { border-color: #bbb; }
+        .reassurance-icon {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            background: #111;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .reassurance-icon svg { width: 18px; height: 18px; color: #fff; }
+        .reassurance-text {}
+        .reassurance-title { font-size: 0.82rem; font-weight: 700; color: #111; margin-bottom: 2px; }
+        .reassurance-desc { font-size: 0.75rem; color: #777; line-height: 1.35; }
+
+        /* Description longue */
+        .long-desc { margin-bottom: 28px; }
+        .long-desc-title { font-size: 1rem; font-weight: 700; color: #111; margin-bottom: 10px; }
+        .long-desc p { font-size: 0.93rem; line-height: 1.75; color: #555; margin-bottom: 12px; }
+
+        /* Avis */
+        .reviews-section { border-top: 1px solid #ebebeb; padding-top: 28px; }
+        .reviews-title { font-size: 1.1rem; font-weight: 700; color: #111; margin-bottom: 20px; }
+        .review-card {
+            background: #fafafa;
+            border: 1px solid #ebebeb;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .review-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .review-author { font-weight: 700; font-size: 0.9rem; color: #111; }
+        .review-date { font-size: 0.78rem; color: #aaa; }
+        .review-stars { display: flex; gap: 2px; margin-bottom: 8px; }
+        .review-stars svg { width: 13px; height: 13px; color: #F5A623; }
+        .review-stars .empty { color: #ddd; }
+        .review-body { font-size: 0.88rem; color: #555; line-height: 1.6; }
+        .verified { display: inline-flex; align-items: center; gap: 4px; font-size: 0.73rem; font-weight: 600; color: #2e7d32; margin-top: 8px; }
+
+        /* =============================================
+           BARRE STICKY MOBILE
+        ============================================= */
+        .mobile-sticky {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            background: #fff;
+            border-top: 1px solid #e8e8e8;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+            z-index: 300;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .mobile-sticky-info {}
+        .mobile-sticky-name { font-size: 0.8rem; color: #777; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; }
+        .mobile-sticky-price { font-weight: 900; font-size: 1.1rem; color: #111; }
+        .mobile-sticky-btn {
+            flex: 1;
+            background: #111;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .mobile-sticky-btn:hover { background: #333; }
+
+        @media (min-width: 900px) {
+            .mobile-sticky { display: none !important; }
+            .star-layout { padding-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="container header-container">
+        <div class="header-left">
+            <button class="menu-btn" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <a href="index.html" class="logo">Ewari.</a>
+        </div>
+        <nav class="nav">
+            <a href="catalogue.html" class="nav-link">Tous les produits</a>
+            <a href="catalogue.html?cat=vetements" class="nav-link">Vêtements</a>
+            <a href="catalogue.html?cat=chaussures" class="nav-link active">Chaussures</a>
+            <a href="catalogue.html?cat=accessoires" class="nav-link">Accessoires</a>
+        </nav>
+        <div class="header-actions">
+            <button class="icon-btn" aria-label="Rechercher">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <a href="panier.html" class="icon-btn" aria-label="Voir le panier">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span id="cart-count" class="cart-count">0</span>
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Fil d'Ariane -->
+    <div class="breadcrumb">
+        <a href="index.html">Accueil</a> /
+        <a href="catalogue.html">Catalogue</a> /
+        <a href="catalogue.html?cat=chaussures">Chaussures</a> /
+        <span>Dr. Martens 1461</span>
+    </div>
+
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="star-layout">
+
+        <!-- ============================
+             COLONNE GAUCHE : GALERIE
+        ============================= -->
+        <div class="gallery-col">
+            <!-- Image principale -->
+            <div class="main-img-wrapper" id="zoom-box">
+                <div class="star-badge-img">⭐ Produit Star</div>
+                <img id="main-star-img" src="images/drmertens1.png" alt="Dr. Martens 1461 Smooth Noir">
+            </div>
+
+            <!-- Miniatures — les 5 images -->
+            <div class="thumbs-row">
+                <img class="thumb active" src="images/drmertens1.png" alt="Vue principale">
+                <img class="thumb" src="images/drmertens2.png" alt="Vue côté">
+                <img class="thumb" src="images/drmertens3.png" alt="Vue dessus">
+                <img class="thumb" src="images/chaussures.jpg" alt="Vue complète">
+                <img class="thumb" src="images/chaussures_life.jpg" alt="Photo lifestyle">
+            </div>
+        </div>
+
+        <!-- ============================
+             COLONNE DROITE : INFOS
+        ============================= -->
+        <div class="info-col">
+
+            <!-- Marque & Nom -->
+            <p class="prod-brand">Dr. Martens</p>
+            <h1 class="prod-name">1461 Smooth — Cuir Noir</h1>
+
+            <!-- Étoiles -->
+            <div class="rating-row">
+                <div class="rating-stars">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <span class="rating-val">4.9</span>
+                <a class="rating-count" href="#reviews">347 avis vérifiés</a>
+            </div>
+
+            <!-- Prix -->
+            <div class="price-row">
+                <span class="price-main">19 500 FCFA</span>
+                <span class="price-sub">Payez à la livraison · Livraison rapide disponible</span>
+            </div>
+
+            <!-- Stock -->
+            <div class="stock-row">
+                <span class="stock-dot"></span>
+                En stock — Expédié sous 24h ouvrées
+            </div>
+
+            <!-- Bénéfices rapides -->
+            <ul class="benefits-list">
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Cuir Smooth noir qui <strong>gagne en caractère</strong> avec le temps
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Semelle AirWair — <strong>confort toute la journée</strong>, même debout
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Polyvalent : casual, bureau, soirée — <strong>une seule paire suffit</strong>
+                </li>
+                <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Icône fondée en 1961 — <strong>intemporel, jamais démodé</strong>
+                </li>
+            </ul>
+
+            <hr class="divider">
+
+            <!-- Sélecteur de pointure -->
+            <div class="size-section">
+                <div class="size-header">
+                    <span class="size-label">Votre pointure</span>
+                    <span class="size-hint">Guide des tailles</span>
+                </div>
+                <div class="sizes-grid">
+                    <button class="size-btn" data-size="40">40</button>
+                    <button class="size-btn" data-size="41">41</button>
+                    <button class="size-btn" data-size="42">42</button>
+                    <button class="size-btn" data-size="43">43</button>
+                    <button class="size-btn" data-size="44">44</button>
+                    <button class="size-btn" data-size="45">45</button>
+                </div>
+                <p class="size-error" id="size-error-msg">⚠ Veuillez sélectionner votre pointure avant d'ajouter au panier.</p>
+            </div>
+
+            <!-- Quantité -->
+            <div class="qty-section">
+                <span class="qty-label">Quantité</span>
+                <div class="qty-control">
+                    <button class="qty-btn-ctrl" id="qty-minus">−</button>
+                    <input type="text" class="qty-val" id="qty-value" value="1" readonly>
+                    <button class="qty-btn-ctrl" id="qty-plus">+</button>
+                </div>
+            </div>
+
+            <!-- BOUTON CTA — TOUJOURS ACTIF (noir) -->
+            <button class="cta-btn" id="main-add-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                Ajouter au panier
+            </button>
+
+            <!-- =============================================
+                 BADGES DE RÉASSURANCE PREMIUM
+            ============================================= -->
+            <div class="reassurance-grid">
+                <div class="reassurance-card">
+                    <div class="reassurance-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                    </div>
+                    <div class="reassurance-text">
+                        <div class="reassurance-title">Paiement Sécurisé</div>
+                        <div class="reassurance-desc">Payez à la livraison, aucun risque</div>
+                    </div>
+                </div>
+                <div class="reassurance-card">
+                    <div class="reassurance-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                    </div>
+                    <div class="reassurance-text">
+                        <div class="reassurance-title">Livraison Express</div>
+                        <div class="reassurance-desc">Reçu chez vous en 24h ouvrées</div>
+                    </div>
+                </div>
+                <div class="reassurance-card">
+                    <div class="reassurance-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.13 15.57a9 9 0 1 0 3.84-10.36L2 7"></path></svg>
+                    </div>
+                    <div class="reassurance-text">
+                        <div class="reassurance-title">Retours Gratuits</div>
+                        <div class="reassurance-desc">30 jours pour changer d'avis</div>
+                    </div>
+                </div>
+                <div class="reassurance-card">
+                    <div class="reassurance-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L7.91 8a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 21.73 15"></path></svg>
+                    </div>
+                    <div class="reassurance-text">
+                        <div class="reassurance-title">Support WhatsApp</div>
+                        <div class="reassurance-desc">Réponse garantie en moins d'1h</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description longue (bénéfices) -->
+            <div class="long-desc">
+                <p class="long-desc-title">Portez une légende</p>
+                <p>La Dr. Martens 1461 n'est pas une simple chaussure — c'est une déclaration. Née en 1961, elle a traversé les décennies sans prendre une ride. Son cuir Smooth noir lisse développe un caractère unique au fil du temps, s'adaptant parfaitement à la forme de votre pied pour un confort sur-mesure dès les premières semaines.</p>
+                <p>La semelle <strong>AirWair</strong> brevetée avec son coussin d'air intégré absorbe les chocs à chaque pas. Que vous passiez la journée debout ou enchaîniez les kilomètres en ville, vos pieds restent à l'aise. Et le soir, la chaussure passe facilement d'un look décontracté à une tenue plus élaborée — sans effort.</p>
+            </div>
+
+            <!-- AVIS CLIENTS -->
+            <div class="reviews-section" id="reviews">
+                <h3 class="reviews-title">Avis de nos clients <span style="color:#777; font-weight:400; font-size:0.9rem;">(347 avis • 4.9/5)</span></h3>
+
+                <div class="review-card">
+                    <div class="review-top">
+                        <span class="review-author">Koffi A.</span>
+                        <span class="review-date">Il y a 3 jours</span>
+                    </div>
+                    <div class="review-stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="review-body">« Reçu en 2 jours, emballage impeccable. La qualité du cuir est vraiment au rendez-vous. Je les porte au bureau et le week-end, c'est vraiment polyvalent. »</p>
+                    <span class="verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Achat vérifié</span>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-top">
+                        <span class="review-author">Fatou D.</span>
+                        <span class="review-date">Il y a 1 semaine</span>
+                    </div>
+                    <div class="review-stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="review-body">« Ma deuxième paire ! J'avais la même il y a 5 ans et elle a duré tout ce temps. Un investissement qui vaut vraiment la peine. »</p>
+                    <span class="verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Achat vérifié</span>
+                </div>
+
+                <div class="review-card">
+                    <div class="review-top">
+                        <span class="review-author">Médard O.</span>
+                        <span class="review-date">Il y a 2 semaines</span>
+                    </div>
+                    <div class="review-stars">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                    <p class="review-body">« Service client d'Ewari au top. J'avais commandé la mauvaise taille, l'échange s'est fait en 48h. Je recommande à 100%. »</p>
+                    <span class="verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Achat vérifié</span>
+                </div>
+
+            </div>
+        </div><!-- fin info-col -->
+    </div><!-- fin star-layout -->
+</div><!-- fin container -->
+
+<!-- BARRE STICKY MOBILE -->
+<div class="mobile-sticky">
+    <div class="mobile-sticky-info">
+        <div class="mobile-sticky-name">Dr. Martens 1461</div>
+        <div class="mobile-sticky-price">19 500 FCFA</div>
+    </div>
+    <button class="mobile-sticky-btn" id="sticky-btn">Ajouter au panier</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container footer-grid">
+        <div class="footer-col">
+            <div class="footer-brand">Ewari.</div>
+            <p style="color: var(--color-grey-dark); font-size: var(--text-sm); line-height: 1.6;">L'excellence au quotidien. La mode de qualité accessible pour tous.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h3>Informations</h3>
+            <ul class="footer-links">
+                <li><a href="#">À Propos</a></li>
+                <li><a href="#">Conditions Générales (CGU)</a></li>
+                <li><a href="#">Contact WhatsApp</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h3>Nous Contacter</h3>
+            <ul class="footer-contact">
+                <li><a href="tel:+2290151693339">+229 01 51 69 33 39</a></li>
+                <li><a href="mailto:storeewari@gmail.com">storeewari@gmail.com</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container" style="text-align:center; border-top:1px solid var(--color-grey-medium); margin-top:var(--space-8); padding-top:var(--space-6);">
+        <p style="font-size:var(--text-xs); color:#999;">© 2026 Ewari. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+
+    // --- Galerie ---
+    const mainImg = document.getElementById('main-star-img');
+    const zoomBox = document.getElementById('zoom-box');
+    const thumbs  = document.querySelectorAll('.thumb');
+
+    thumbs.forEach(t => {
+        t.addEventListener('click', () => {
+            mainImg.style.opacity = '0.3';
+            setTimeout(() => { mainImg.src = t.src; mainImg.style.opacity = '1'; }, 180);
+            thumbs.forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+        });
+    });
+
+    // --- Zoom tactile PC ---
+    let zoom = 1;
+    zoomBox.addEventListener('wheel', e => {
+        if (e.ctrlKey) {
+            e.preventDefault();
+            zoom -= e.deltaY * 0.008;
+            zoom = Math.min(Math.max(1, zoom), 3);
+            mainImg.style.transform = `scale(${zoom})`;
+        }
+    }, { passive: false });
+    zoomBox.addEventListener('mousemove', e => {
+        if (zoom > 1) {
+            const r = zoomBox.getBoundingClientRect();
+            mainImg.style.transformOrigin = `${((e.clientX - r.left)/r.width)*100}% ${((e.clientY - r.top)/r.height)*100}%`;
+        }
+    });
+    zoomBox.addEventListener('mouseleave', () => {
+        zoom = 1;
+        mainImg.style.transform = 'scale(1)';
+        mainImg.style.transformOrigin = 'center center';
+    });
+
+    // --- Pointures ---
+    let selectedSize = null;
+    const sizeBtns  = document.querySelectorAll('.size-btn');
+    const errMsg     = document.getElementById('size-error-msg');
+
+    sizeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            sizeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = btn.dataset.size;
+            errMsg.style.display = 'none';
+        });
+    });
+
+    // --- Quantité ---
+    const qtyInput = document.getElementById('qty-value');
+    document.getElementById('qty-minus').addEventListener('click', () => {
+        let v = parseInt(qtyInput.value); if (v > 1) qtyInput.value = v - 1;
+    });
+    document.getElementById('qty-plus').addEventListener('click', () => {
+        let v = parseInt(qtyInput.value); if (v < 10) qtyInput.value = v + 1;
+    });
+
+    // --- Ajout au panier ---
+    function doAddToCart() {
+        if (!selectedSize) {
+            errMsg.style.display = 'block';
+            errMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        const qty = parseInt(qtyInput.value);
+        let cart = JSON.parse(localStorage.getItem('ewari_cart')) || [];
+        const id = `drmartens-1461-noir-${selectedSize}`;
+        const idx = cart.findIndex(i => i.cartItemId === id);
+        if (idx > -1) {
+            cart[idx].quantity += qty;
+        } else {
+            cart.push({ cartItemId: id, productId: 'drmartens-1461-noir', name: 'Dr. Martens 1461 Smooth - Noir', category: 'Chaussures', brand: 'Dr. Martens', price: 19500, image: 'images/drmertens1.png', size: selectedSize, quantity: qty });
+        }
+        localStorage.setItem('ewari_cart', JSON.stringify(cart));
+        updateCartCount();
+        showToast(`Dr. Martens 1461 — Pointure ${selectedSize} ajoutée ✓`);
+    }
+
+    document.getElementById('main-add-btn').addEventListener('click', doAddToCart);
+    document.getElementById('sticky-btn').addEventListener('click', doAddToCart);
+});
+</script>
+</body>
+</html>
