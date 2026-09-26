@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement sécurisé | Ewari</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        .checkout-layout { display: flex; flex-direction: column-reverse; gap: var(--space-8); margin: var(--space-8) 0 var(--space-12); }
+        @media (min-width: 1024px) { .checkout-layout { flex-direction: row; align-items: flex-start; } .checkout-form-section { flex: 2; } .checkout-summary-section { flex: 1; position: sticky; top: 80px; } }
+        .form-group { margin-bottom: var(--space-4); }
+        .form-group label { display: block; margin-bottom: var(--space-2); font-weight: 500; font-size: var(--text-sm); }
+        .form-control { width: 100%; padding: var(--space-3); border: 1px solid var(--color-grey-medium); border-radius: var(--radius-sm); font-size: var(--text-base); transition: border-color 0.2s; }
+        .form-control:focus { outline: none; border-color: var(--color-black); }
+        .section-title { font-size: var(--text-xl); margin-bottom: var(--space-6); padding-bottom: var(--space-2); border-bottom: 1px solid var(--color-grey-medium); }
+        .mini-summary { background-color: var(--color-grey-light); padding: var(--space-6); border-radius: var(--radius-md); }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: var(--space-3); font-size: var(--text-base); }
+        .summary-row.total { font-weight: 700; font-size: var(--text-lg); border-top: 1px solid var(--color-grey-medium); padding-top: var(--space-4); margin-top: var(--space-4); }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container" style="justify-content: center;">
+            <a href="index.html" class="logo">Ewari.</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="checkout-layout">
+            <div class="checkout-form-section">
+                <h1 class="section-title">Informations de livraison</h1>
+                
+                <form id="checkout-form">
+                    <div class="form-group">
+                        <label for="fullname">Nom complet *</label>
+                        <input type="text" id="fullname" class="form-control" required placeholder="Ex: Jean Dupont">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Numéro de téléphone *</label>
+                        <input type="tel" id="phone" class="form-control" required placeholder="Ex: +229 XX XX XX XX">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Adresse de livraison *</label>
+                        <input type="text" id="address" class="form-control" required placeholder="Numéro de rue, quartier...">
+                    </div>
+
+                    <h2 class="section-title" style="margin-top: var(--space-8);">Paiement</h2>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Confirmer la commande</button>
+                </form>
+            </div>
+
+            <div class="checkout-summary-section">
+                <div class="mini-summary">
+                    <h2 style="font-size: var(--text-lg); margin-bottom: var(--space-4);">Votre commande</h2>
+                    <div id="checkout-items-preview" style="margin-bottom: var(--space-4); border-bottom: 1px solid var(--color-grey-medium); padding-bottom: var(--space-4);"></div>
+                    <div class="summary-row">
+                        <span>Sous-total</span>
+                        <span id="checkout-subtotal">0 FCFA</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Livraison</span>
+                        <span>1 500 FCFA</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total à payer</span>
+                        <span id="checkout-total">0 FCFA</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="footer-brand">Ewari.</div>
+                <p style="color: var(--color-grey-dark); font-size: var(--text-sm); line-height: 1.6;">L'excellence au quotidien. La mode de qualité accessible pour tous.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="TikTok"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                    <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Informations</h3>
+                <ul class="footer-links">
+                    <li><a href="#">À Propos</a></li>
+                    <li><a href="#">Conditions Générales (CGU)</a></li>
+                    <li><a href="#">Contact WhatsApp</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Nous Contacter</h3>
+                <ul class="footer-contact">
+                    <li><a href="tel:+2290151693339">+229 01 51 69 33 39</a></li>
+                    <li><a href="mailto:storeewari@gmail.com">storeewari@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container" style="text-align: center; border-top: 1px solid var(--color-grey-medium); margin-top: var(--space-8); padding-top: var(--space-6);">
+            <p style="font-size: var(--text-xs); color: #999;">© 2026 Ewari. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
